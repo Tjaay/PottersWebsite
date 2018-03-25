@@ -55,6 +55,8 @@ define('SECURE_AUTH_SALT', '-q93Dq-m{#u(JgTeVukuy&!]4oZDVir;gWJ2.Spx[t-3%&_y8b>]
 define('LOGGED_IN_SALT',   'ksTG5$5-srarT[,:_6h*ami OHUJD|^J0X6xGFwAcT%Fd4A3hV`ZA$yzeT7B>:8%');
 define('NONCE_SALT',       '85p7Hif!.F =GE&|pmD,?`P@ yJ7OlvNq&y4P:0Dgx=q)3W;}, GS:5Ow|J;Hb 0');
 
+
+
 /**#@-*/
 
 /**
@@ -78,6 +80,8 @@ $table_prefix  = 'wp_';
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 define('WP_DEBUG', false);
+
+
 
 /* That's all, stop editing! Happy blogging. */
 
