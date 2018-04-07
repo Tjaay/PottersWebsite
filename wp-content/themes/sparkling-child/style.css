@@ -2,3 +2,10 @@
 Theme Name: Sparkling Child
 Template: sparkling
 */
+
+
+
+.slides img {
+    min-width: 1440px;
+    max-height: 440px;
+}

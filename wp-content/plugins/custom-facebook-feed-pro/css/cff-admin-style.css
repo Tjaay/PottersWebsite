@@ -74,7 +74,8 @@
 #cff-admin .cff-notice a:focus{
 	color: #a34100;
 }
-#cff-admin .cff-profile-error{
+#cff-admin .cff-profile-error,
+#cff-admin .cff-group-error{
 	display: none;
 
 	margin-top: 5px;
@@ -87,7 +88,8 @@
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
-#cff-admin .cff-profile-error p{
+#cff-admin .cff-profile-error p,
+#cff-admin .cff-group-error p{
 	font-size: 13px;
 }
 #cff-admin .cff-notice p{

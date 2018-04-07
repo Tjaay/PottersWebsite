@@ -3,10 +3,10 @@ Author: Smash Balloon
 Support Website: http://smashballoon/custom-facebook-feed/
 Requires at least: 3.0
 Tested up to: 4.9
-Version: 3.2.7
+Version: 3.2.8
 License: Non-distributable, Not for resale
 
-The Custom Facebook Feed allows you to display a completely customizable Facebook feed of any public Facebook page or group on your website.
+The Custom Facebook Feed allows you to display a completely customizable Facebook feed of any public Facebook page on your website.
 
 == Description ==
 Display a **completely customizable**, **responsive** and **search engine crawlable** version of your Facebook feed on your website. Completely match the look and feel of the site with tons of customization options!
@@ -14,7 +14,7 @@ Display a **completely customizable**, **responsive** and **search engine crawla
 * **Completely Customizable** - by default inherits your theme's styles
 * **Feed content is crawlable by search engines adding SEO value to your site** - other Facebook plugins embed the feed using iframes which are not crawlable
 * **Completely responsive and mobile optimized** - works on any screen size
-* Display statuses, photos, videos, events, links and offers from your Facebook page or group
+* Display statuses, photos, videos, events, links and offers from your Facebook page
 * Choose which post types are displayed. Only want to show photos, videos or events? No problem
 * Display multiple feeds from different Facebook pages on the same page or throughout your site
 * Show likes, shares and comments for each post
@@ -35,10 +35,14 @@ Display a **completely customizable**, **responsive** and **search engine crawla
 
 == Changelog ==
 
+= 3.2.8 =
+* Important: Due to sudden changes in the Facebook API it is no longer possible to display posts from a Facebook Group. Please [see here](https://smashballoon.com/facebook-api-changes-april-4-2018/) for more information. We apologize for any frustration or inconvenience this has caused.
+* Removed: Due to Facebook API restrictions, it is no longer possible to display information about an event when it is posted or shared to your Facebook Page timeline.
+* Removed: Due to Facebook API restrictions, it is no longer possible to display an individual event using the [Featured Post extension](https://smashballoon.com/extensions/featured-post/)
+
 = 3.2.7 =
 * Tweak: In video feeds the video title now also opens the popup lightbox instead of linking to Facebook
 * Tweak: The [Date Range](https://smashballoon.com/extensions/date-range/) and [Album](https://smashballoon.com/extensions/album/) extension are now compatible, allowing you to display pictures from a specific album within a certain date range
-* Tweak Added support for clearing the cache in the SG Optimizer plugin
 * Fix: Prevented some PHP 7.1 notices which displayed under rare circumstances
 * Fix: Added a fallback in case the plugin can't access the Access Token in the database when loading data dynamically
 * Fix: Fixed a PHP notice which appeared if the album post type setting wasn't saved successfully

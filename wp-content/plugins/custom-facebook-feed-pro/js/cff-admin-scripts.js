@@ -28,30 +28,38 @@ jQuery(document).ready(function($) {
 	//Is this a page, group or profile?
 	var cff_page_type = jQuery('.cff-page-type select').val(),
 		$cff_page_type_options = jQuery('.cff-page-options'),
-		$cff_profile_error = jQuery('.cff-profile-error.cff-page-type');
+		$cff_profile_error = jQuery('.cff-profile-error.cff-page-type'),
+		$cff_group_error = jQuery('.cff-group-error.cff-page-type');
 
 	//Should we show anything initially?
 	if(cff_page_type !== 'page') $cff_page_type_options.hide();
 	if(cff_page_type == 'profile') $cff_profile_error.show();
+	if(cff_page_type == 'group') $cff_group_error.show();
 
 	//When page type is changed show the relevant item
 	jQuery('.cff-page-type').change(function(){
 		cff_page_type = jQuery('.cff-page-type select').val();
 
 		if( cff_page_type !== 'page' ) {
-			$cff_page_type_options.fadeOut(function(){
-				if( cff_page_type == 'profile' ) {
-					$cff_profile_error.fadeIn();
+			$cff_page_type_options.hide();
+			if( cff_page_type == 'profile' ) {
+					$cff_profile_error.show();
+					$cff_group_error.hide();
+				} else if( cff_page_type == 'group' ) {
+					$cff_group_error.show();
+					$cff_profile_error.hide();
 				} else {
-					$cff_profile_error.fadeOut();
+					$cff_group_error.hide();
+					$cff_profile_error.hide();
 				}
-			});
 			
 		} else {
-			$cff_page_type_options.fadeIn();
-			$cff_profile_error.fadeOut();
+			$cff_page_type_options.show();
+			$cff_profile_error.hide();
+			$cff_group_error.hide();
 		}
 	});
+
 
 	//PHOTOS ONLY
 	//When 'Display photos from your Photos page' is checked then show the options

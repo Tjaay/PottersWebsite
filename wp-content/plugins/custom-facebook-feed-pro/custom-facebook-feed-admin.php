@@ -978,7 +978,7 @@ function cff_settings_page() {
                             <?php _e('Facebook Page IDs'); ?><br /><i style="color: #666; font-size: 11px;"><?php _e('Separate multiple IDs with commas</i>'); ?></label><code class="cff_shortcode"> id
                         Eg: id="nba,cnn,nfl"</code></th>
                             <?php } else { ?>
-                            <?php _e('Facebook Page ID<br /><i style="font-weight: normal; font-size: 12px;">ID of your Facebook Page or Group</i>'); ?></label><code class="cff_shortcode"> id
+                            <?php _e('Facebook Page ID<br /><i style="font-weight: normal; font-size: 12px;">ID of your Facebook Page</i>'); ?></label><code class="cff_shortcode"> id
                         Eg: id="YOUR_PAGE_ID"</code></th>
                             <?php } ?>
                         <td>
@@ -1002,8 +1002,8 @@ function cff_settings_page() {
                                     URL Format 3: <code>https://www.facebook.com/pages/your_page_name/<span class="cff-highlight">1234567890</span></code>
                                     '); ?>
                                     </li>
-                                    <li><?php _e('<b>Facebook Group</b><br />If you have a Facebook <b>Group</b> then use <a href="http://lookup-id.com/" target="_blank" title="Find my ID">this tool</a> to find your ID.'); ?></li>
-                                    <li><?php _e('To test that your ID is correct, you can copy and paste it into our <a href="http://smashballoon.com/custom-facebook-feed/demo/" target="_blank">demo</a>.'); ?></li>
+                                    <li><?php _e('<b>Facebook Group</b><br />Due to <a href="https://smashballoon.com/facebook-api-changes-april-4-2018/" target="_blank">recent changes</a> to the Facebook API it is unfortunately no longer possible to display a feed from a Facebook Group.'); ?></li>
+                                    <li><?php _e('To test that your ID is correct, you can copy and paste it into our <a href="http://smashballoondemo.com/" target="_blank">Pro demo</a>.'); ?></li>
                                 </ul>
                             </div>
                         </td>
@@ -1056,7 +1056,11 @@ function cff_settings_page() {
                                 <option value="profile" <?php if($cff_page_type_val == "profile") echo 'selected="selected"' ?> ><?php _e('Profile'); ?></option>
                             </select>
                             <div class="cff-notice cff-profile-error cff-page-type">
-                                <?php _e("<p>Due to Facebook's privacy policy you're not able to display posts from a personal profile, only from a public page or group.</p><p>If you're using a profile to represent a business, organization, product, public figure or the like, then Facebook recommends <a href='http://www.facebook.com/help/175644189234902/' target='_blank'>converting your profile to a page</a>. There are many advantages to using pages over profiles, and once you've converted then the plugin will be able to successfully retrieve and display all of your posts.</p>"); ?>
+                                <?php _e("<p>Due to Facebook's privacy policy you're not able to display posts from a personal profile, only from a public Facebook Page.</p><p>If you're using a profile to represent a business, organization, product, public figure or the like, then Facebook recommends <a href='http://www.facebook.com/help/175644189234902/' target='_blank'>converting your profile to a page</a>. There are many advantages to using pages over profiles, and once you've converted then the plugin will be able to successfully retrieve and display all of your posts.</p>", 'custom-facebook-feed'); ?>
+                            </div>
+
+                            <div class="cff-notice cff-group-error cff-page-type">
+                                <?php _e("<p>Due to recent changes in the Facebook API it is unfortunately not possible to display posts from Facebook Groups. Please see <a href='https://smashballoon.com/facebook-api-changes-april-4-2018/' target='_blank'>this page</a> for more information.</p>", 'custom-facebook-feed'); ?>
                             </div>
                         </td>
                     </tr>

@@ -996,6 +996,10 @@
 #cff .cff-details .cff-when{
   white-space: normal !important;
 }
+#cff .cff-timeline-event .cff-text-wrapper {
+    width: 100% !important;
+}
+
 /* Events only */
 #cff .cff-event .cff-photo{
   margin-top: 5px;

@@ -1109,7 +1109,7 @@ function cff_get_json_data( $feed_options, $next_urls_arr_safe = null, $data_att
             //PHOTOS ONLY
             if($cff_photos_only){
                 //Photo only feeds only work for pages since Facebook deprecated FQL
-                $cff_posts_json_url = 'https://graph.facebook.com/'.$page_id.'/photos?type=uploaded&fields=id,created_time,link,picture,images,name&limit='.$cff_post_limit.'&access_token='.$access_token;
+                $cff_posts_json_url = 'https://graph.facebook.com/'.$page_id.'/photos?type=uploaded&fields=id,created_time,link,picture,images,name&limit='.$cff_post_limit.'&access_token='.$access_token.$cff_date_range;
             }
 
             //ALBUMS ONLY
@@ -1938,15 +1938,34 @@ function cff_get_post_set_html( $feed_options, $json_data_arr ) {
         //EVENTS ONLY
         if ($cff_events_only && $cff_events_source == 'eventspage'){
 
+            if( $cff_featured_post_active && !empty($feed_options['featuredpost']) ){
+                $cff_content .= '<div class="cff-error-msg">';
+                $cff_content .= '<p><b>Unable to display event</b></p>';
+                $cff_content .= '<div id="cff-error-reason"><i>This message is only visible to admins:</i><br />Due to recent changes in the Facebook API it is unfortunately no longer possible to display individual featured events. Please see <a href="https://smashballoon.com/facebook-api-changes-april-4-2018/" target="_blank">this page</a> for more information.</div>';
+                $cff_content .= '</div>'; //End .cff-error-msg and #cff-error-reason
+
+                //Only display errors to admins
+                if( current_user_can( 'manage_options' ) ){
+                    $cff_content .= '<style>#cff .cff-error-msg{ display: block !important; }</style>';
+                }
+
+                return $cff_content;
+            }
+
             //If there is no event data then show a message
             if( empty($json_data->data) ){
 
                 //Check whether it's group events
-                if($cff_is_group && strlen($access_token) < 50 ){
-                    $cff_content .= '<div class="cff-error-msg" style="display: block;">';
-                    $cff_content .= '<p>Unable to display Facebook Group events</p>';
-                    $cff_content .= '<div id="cff-error-reason">Error: "User" Access Token required by Facebook<br />Please refer to <a href="https://smashballoon.com/facebook-group-events-arent-displayed/" target="_blank">this FAQ</a> for a solution.</div>';
+                if($cff_is_group){
+                    $cff_content .= '<div class="cff-error-msg">';
+                    $cff_content .= '<p><b>Unable to display Facebook Group events</b></p>';
+                    $cff_content .= '<div id="cff-error-reason"><i>This message is only visible to admins:</i><br />Due to recent changes in the Facebook API it is unfortunately no longer possible to display posts from Facebook Groups. Please see <a href="https://smashballoon.com/facebook-api-changes-april-4-2018/" target="_blank">this page</a> for more information.</div>';
                     $cff_content .= '</div>'; //End .cff-error-msg and #cff-error-reason
+
+                    //Only display errors to admins
+                    if( current_user_can( 'manage_options' ) ){
+                        $cff_content .= '<style>#cff .cff-error-msg{ display: block !important; }</style>';
+                    }
 
                     return $cff_content;
                 }
@@ -2302,9 +2321,14 @@ function cff_get_post_set_html( $feed_options, $json_data_arr ) {
                     /* Check that the user hasn't already clicked to ignore the message */
                     if ( ! get_user_meta($user_id, 'cff_group_photos_notice_dismiss') ) {
 
-                        $cff_content .= "<section class='cff-error-msg' style='display: block;'>";
+                        $cff_content .= "<section class='cff-error-msg'>";
                         $cff_content .= "<p><b>This message is only visible to admins:</b><br />Facebook deprecated version 2.0 of their API in August 2016, which unfortunately means that Facebook no longer supports displaying photo grid feeds from Facebook Groups. Please see <a href='https://smashballoon.com/can-i-display-photos-from-a-facebook-group/' target='_blank'>here</a> for more information. We apologize for any inconvenience.</p>";
                         $cff_content .= "<a class='cff_notice_dismiss' href='" .esc_url( add_query_arg( 'cff_group_photos_notice_dismiss', '0' ) ). "'><i class='fa fa-times-circle' aria-hidden='true'></i></a></section>";
+
+                        //Only display errors to admins
+                        if( current_user_can( 'manage_options' ) ){
+                            $cff_content .= '<style>#cff .cff-error-msg{ display: block !important; }</style>';
+                        }
 
                     }
                 
@@ -2324,28 +2348,39 @@ function cff_get_post_set_html( $feed_options, $json_data_arr ) {
                         $cff_content .= "<div class='cff-error-msg'>";
                         $cff_content .= '<p><b>This message is only visible to admins:</b><br />Unable to display Facebook posts</p>';
                         $cff_content .= '<div id="cff-error-reason">';
+
+
+                        if( $cff_page_type == 'group' ){
+
+                            $cff_content .= 'Due to recent changes in the Facebook API it is unfortunately no longer possible to display posts from Facebook Groups. Please see <a href="https://smashballoon.com/facebook-api-changes-april-4-2018/" target="_blank">this page</a> for more information.';
+
+                        } else {
+
                         
-                        if( isset($FBdata->error->message) ) $cff_content .= '<b>Error:</b> ' . $FBdata->error->message;
-                        if( isset($FBdata->error->type) ) $cff_content .= '<br /><b>Type:</b> ' . $FBdata->error->type;
-                        if( isset($FBdata->error->code) ) $cff_content .= '<br /><b>Code:</b> ' . $FBdata->error->code;
-                        if( isset($FBdata->error->error_subcode) ) $cff_content .= '<br />Subcode: ' . $FBdata->error->error_subcode;
+                            if( isset($FBdata->error->message) ) $cff_content .= '<b>Error:</b> ' . $FBdata->error->message;
+                            if( isset($FBdata->error->type) ) $cff_content .= '<br /><b>Type:</b> ' . $FBdata->error->type;
+                            if( isset($FBdata->error->code) ) $cff_content .= '<br /><b>Code:</b> ' . $FBdata->error->code;
+                            if( isset($FBdata->error->error_subcode) ) $cff_content .= '<br />Subcode: ' . $FBdata->error->error_subcode;
 
-                        if( isset($FBdata->error_msg) ) $cff_content .= '<b>Error:/<b> ' . $FBdata->error_msg;
-                        if( isset($FBdata->error_code) ) $cff_content .= '<br /><b>Code:</b> ' . $FBdata->error_code;
-                        
-                        if($FBdata == null) $cff_content .= '<b>Error:</b> Server configuration issue';
-
-                        if( empty($FBdata->error) && empty($FBdata->error_msg) && $FBdata !== null ){
-
-                            if( $feed_options['limit'] == '0' ){
-                                $cff_content .= "<b>Error:</b> Post limit setting is set to 0. Please increase the Post Limit setting on the plugin's Settings page.";
-                            } else {
-                                $cff_content .= '<b>Error:</b> No posts available for this Facebook ID';
-                            }
+                            if( isset($FBdata->error_msg) ) $cff_content .= '<b>Error:/<b> ' . $FBdata->error_msg;
+                            if( isset($FBdata->error_code) ) $cff_content .= '<br /><b>Code:</b> ' . $FBdata->error_code;
                             
+                            if($FBdata == null) $cff_content .= '<b>Error:</b> Server configuration issue';
+
+                            if( empty($FBdata->error) && empty($FBdata->error_msg) && $FBdata !== null ){
+
+                                if( $feed_options['limit'] == '0' ){
+                                    $cff_content .= "<b>Error:</b> Post limit setting is set to 0. Please increase the Post Limit setting on the plugin's Settings page.";
+                                } else {
+                                    $cff_content .= '<b>Error:</b> No posts available for this Facebook ID';
+                                }
+                                
+                            }
+
+                            $cff_content .= '<br /><a href="https://smashballoon.com/custom-facebook-feed/docs/errors/" target="_blank">Click here to Troubleshoot</a>.';
+
                         }
 
-                        $cff_content .= '<br /><a href="https://smashballoon.com/custom-facebook-feed/docs/errors/" target="_blank">Click here to Troubleshoot</a>.';
                         $cff_content .= '</div>'; //End #cff-error-reason
                         $cff_content .= "</div>"; //End .cff-error-msg
                         
@@ -3071,129 +3106,6 @@ function cff_get_post_set_html( $feed_options, $json_data_arr ) {
                                 //EVENT
                                 $cff_event_has_cover_photo = false;
                                 $cff_event = '';
-                                if ($cff_show_event_title || $cff_show_event_details) {
-                                    //Check for media
-                                    if ($cff_post_type == 'event') {
-
-                                        //Get the event id from the event URL. eg: http://www.facebook.com/events/123451234512345/
-                                        $event_url = parse_url($link);
-                                        $url_parts = explode('/', $event_url['path']);
-                                        //Get the id from the parts
-                                        $eventID = $url_parts[count($url_parts)-2];
-                                        
-                                        //Facebook changed the event link from absolute to relative, and so if the link isn't absolute then add facebook.com to front
-                                        ( stripos($link, 'facebook.com') ) ? $link = $link : $link = 'https://facebook.com' . $link;
-
-                                        //Is it SSL?
-                                        $cff_ssl = '';
-                                        if (is_ssl()) $cff_ssl = '&return_ssl_resources=true';
-
-                                        //Get the contents of the event
-                                        $event_json_url = 'https://graph.facebook.com/v2.8/'.$eventID.'?fields=cover,place,name,owner,start_time,timezone,id,comments.summary(true){message,created_time}&access_token=' . $access_token . $cff_ssl;
-
-                                        //Don't use caching if the cache time is set to zero
-                                        if ($cff_cache_time != 0){
-                                            // Get any existing copy of our transient data
-                                            $transient_name = 'cff_tle_' . $eventID;
-                                            $transient_name = substr($transient_name, 0, 45);
-
-                                            if ( false === ( $event_json = get_transient( $transient_name ) ) || $event_json === null ) {
-                                                //Get the contents of the Facebook page
-                                                $event_json = cff_fetchUrl($event_json_url);
-                                                //Cache the JSON for a week as the timeline event info probably isn't going to change
-                                                set_transient( $transient_name, $event_json, 60 * 60 * 24 * 7 );
-                                            } else {
-                                                $event_json = get_transient( $transient_name );
-                                                //If we can't find the transient then fall back to just getting the json from the api
-                                                if ($event_json == false) $event_json = cff_fetchUrl($event_json_url);
-                                            }
-                                        } else {
-                                            $event_json = cff_fetchUrl($event_json_url);
-                                        }
-
-                                        //Interpret data with JSON
-                                        $event_object = json_decode($event_json);
-                                        //Picture
-                                        if( isset($event_object->cover) ){
-                                            $cff_timeline_event_image = $event_object->cover->source;
-                                            $cff_event_has_cover_photo = true;
-                                        } else {
-                                            $cff_timeline_event_image = false;
-                                        }
-
-                                        $cff_timeline_event_photo = '';
-                                        if($cff_show_media && $cff_timeline_event_image){
-
-                                            //Fix Photon (Jetpack) issue
-                                            $cff_picture_querystring = '';
-                                            if (parse_url($cff_timeline_event_image, PHP_URL_QUERY)){
-                                                $picture_url_parts = parse_url($cff_timeline_event_image);
-                                                $cff_picture_querystring = $picture_url_parts['query'];
-                                            }
-
-                                            //Remove any quotes from event name to use in the image alt tag
-                                            (!empty($event_object->name)) ? $cff_event_title = $event_object->name : $cff_event_title = '';
-                                            $cff_event_title = str_replace('"', "", $cff_event_title);
-                                            $cff_event_title = str_replace("'", "", $cff_event_title);
-
-                                            //Alt text
-                                            isset( $cff_event_title ) ? $cff_alt_text = strip_tags($cff_event_title) : $cff_alt_text = $cff_facebook_link_text;
-
-                                            $cff_timeline_event_photo .= '<div class="cff-media-wrap">';
-                                            $cff_timeline_event_photo .= '<a title="'.$cff_facebook_link_text.'" class="cff-event-thumb';
-                                            if($cff_event_has_cover_photo) $cff_timeline_event_photo .= ' cff-has-cover';
-                                            $cff_timeline_event_photo .= ' nofancybox" href="'.$link.'" '.$target.$cff_nofollow.$cff_lightbox_sidebar_atts.'><img src="'.$cff_timeline_event_image.'" alt="'.$cff_alt_text.'" data-querystring="'.$cff_picture_querystring.'" /></a>';
-                                            $cff_timeline_event_photo .= '</div>';
-                                        }
-
-                                        //Event date
-                                        isset($event_object->start_time)? $event_time = $event_object->start_time : $event_time = '';
-                                        isset($event_object->end_time) ? $event_end_time = ' - <span class="cff-end-date">' . cff_eventdate(strtotime($event_object->end_time), $cff_event_date_formatting, $cff_event_date_custom) . '</span>' : $event_end_time = '';
-                                        //If timezone migration is enabled then remove last 5 characters
-                                        if ( strlen($event_time) == 24 ) $event_time = substr($event_time, 0, -5);
-                                        $cff_event_date = '';
-                                        if (!empty($event_time)) $cff_event_date = '<span class="cff-date" '.$cff_event_date_styles.'><span class="cff-start-date">' . cff_eventdate(strtotime($event_time), $cff_event_date_formatting, $cff_event_date_custom) . '</span>' . $event_end_time.'</span>';
-
-                                        //EVENT
-                                        //Display the event details
-                                        $cff_event .= '<span class="cff-details';
-                                        if($cff_event_has_cover_photo) $cff_event .= ' cff-has-cover';
-                                        $cff_event .= '">';
-                                        //show event date above title
-                                        if ($cff_event_date_position == 'above') $cff_event .= $cff_event_date;
-                                        //Show event title
-                                        if ($cff_show_event_title && !empty($event_object->name)) {
-                                            $cff_event .= '<span class="cff-timeline-event-title" ' . $cff_event_title_styles . '>';
-                                            if ($cff_event_title_link) $cff_event .= '<a href="'.$link.'" '.$target.$cff_nofollow.'>';
-                                            $cff_event .= $event_object->name;
-                                            if ($cff_event_title_link) $cff_event .= '</a>';
-                                            $cff_event .= '</span>';
-                                        }
-                                        //show event date below title
-                                        if ($cff_event_date_position !== 'above') $cff_event .= $cff_event_date;
-                                        //Show event details
-                                        if ($cff_show_event_details){
-                                            //Location
-                                            if (!empty($event_object->place->name)) $cff_event .= '<span class="cff-where" ' . $cff_event_details_styles . '>' . $event_object->place->name . '</span>';
-                                            //Description
-                                            if (!empty($news->description)){
-                                                $description = cff_autolink($news->description, $link_color=$cff_event_link_color);
-
-                                                $cff_description_tagged = cff_desc_tags($description);
-
-                                                $cff_event .= '<span class="cff-info" ' . $cff_event_details_styles . '>' . $cff_description_tagged . '</span>';
-
-                                            }
-                                        }
-                                        $cff_event .= '</span>';
-
-                                        //Add event to post text so it can be included in the char count
-                                        if( !empty($post_text) && $post_text != '' ) $post_text .= $cff_linebreak_el.$cff_linebreak_el;
-                                        $post_text .= $cff_event;
-                                        
-                                    }
-                                    
-                                }
 
                                 //Start HTML for post text
                                 $cff_post_text .= '<span class="cff-text" data-color="'.$cff_posttext_link_color.'">';
@@ -4114,7 +4026,7 @@ function cff_get_post_set_html( $feed_options, $json_data_arr ) {
                                     if($cff_show_author && !$cff_is_video_embed) $cff_post_item .= $cff_author;
                                     //MEDIA
                                     if($cff_show_media && $cff_media_position == 'above'){
-                                        if( $cff_post_type == 'event' ) $cff_media = $cff_timeline_event_photo;
+                                        // if( $cff_post_type == 'event' ) $cff_media = $cff_timeline_event_photo;
                                         $cff_post_item .= $cff_media;
                                     }
                                     //DATE ABOVE
@@ -4134,7 +4046,7 @@ function cff_get_post_set_html( $feed_options, $json_data_arr ) {
                                 
                                 //MEDIA
                                 if($cff_show_media && $cff_media_position !== 'above') {
-                                    if( $cff_post_type == 'event' ) $cff_media = $cff_timeline_event_photo;
+                                    // if( $cff_post_type == 'event' ) $cff_media = $cff_timeline_event_photo;
                                     $cff_post_item .= $cff_media;
                                     if($cff_is_video_embed) $cff_post_item .= '</div>';
                                 }
