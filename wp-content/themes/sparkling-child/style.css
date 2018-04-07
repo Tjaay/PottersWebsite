@@ -10,6 +10,8 @@ Template: sparkling
     max-height: 440px;
 }
 
-.cff-photo {
-   
-}
+.hidetitle .entry-title {
+
+    display:none;
+    
+    }
