@@ -30,9 +30,16 @@ Template: sparkling
 }
 
 #logo img {
+    content: url("assets/images/pottersLogo.png")!important;
     padding-top:15px;
     padding-bottom:10px;
     width:150px;
+}
+
+#logo img:hover {
+  width:170px;
+  margin-right:-20px;
+  content: url("assets/images/hoverLogo.png")!important;
 }
 
 .btn:hover {
