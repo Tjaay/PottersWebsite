@@ -35,9 +35,13 @@ Template: sparkling
     width:150px;
 }
 
+.btn:hover {
+    background-color:#40739e!important;
+}
 
-
-
+.scroll-to-top:hover {
+    background-color:#40739e!important;
+}
 
 
 
@@ -173,7 +177,7 @@ Template: sparkling
     position: absolute;
     content: '';
     transition: all 0.35s ease;
-    background-color:  #DA4453;
+    background-color:  #40739e;
     width: 0;
   }
   
