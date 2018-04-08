@@ -30,7 +30,7 @@
 
     <div class="event-card-container">
       <div class="view overlay">
-        <img src="/assets/images/hey.jpg"  class="img-fluid">
+        <img src="<?php the_field('upcomingWorkshopsImg');?>"  class="img-fluid">
           <a href="#!">
             <div class="mask rgba-white-slight"></div>
           </a>
@@ -53,7 +53,7 @@
 
     <div class="event-card-container">
       <div class="view overlay">
-        <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg" class="img-fluid">
+        <img src="<?php the_field('pottersResourceImg');?>" class="img-fluid">
           <a href="#!">
             <div class="mask rgba-white-slight"></div>
           </a>
