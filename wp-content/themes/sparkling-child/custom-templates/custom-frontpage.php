@@ -23,11 +23,8 @@
     </main><!-- .site-main -->
  
     <?php get_sidebar( 'content-bottom' ); ?>
- 
     <?php sparkling_featured_potter_slider(); ?>
-
-
-
+    <?php sparkling_call_for_action(); ?>
     </div><!-- .content-area -->
  
 <?php get_sidebar(); ?>

@@ -4,6 +4,21 @@ Template: sparkling
 */
 
 
+#page .post-inner-content {
+  background: #f5f6fa;
+  border: 0;
+  }
+
+
+
+
+  #secondary .well {
+    background: #f5f6fa;
+  }
+  
+  #primary .post-inner-content{
+    background: #f5f6fa;
+  }
 
 .slides img {
     min-width:100%;
@@ -12,7 +27,7 @@ Template: sparkling
 
  .potter img {
    min-width: 100%;
-   max-height:400px!important;
+   max-height:550px!important;
 }
 
 .potter .flex-caption {
@@ -105,7 +120,7 @@ Template: sparkling
     position: relative;
     margin:auto;
     min-width: 0;
-    background-color: #fff;
+    background: #f5f6fa;
     background-clip: border-box;
     box-shadow: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: .85rem;
