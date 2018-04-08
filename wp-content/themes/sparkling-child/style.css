@@ -25,4 +25,55 @@ Template: sparkling
 }
 
 
+#menu-social la a{
+    background-color:red!important;
+}
 
+
+#menu-social li a[href*="facebook.com"] {
+    background-image: url("assets/images/facebookIcon.png");
+    background-repeat: no-repeat;
+    background-size: 16px, 16px;
+    background-position: center;
+    background-color: rgba(100, 100, 100, 0.4)!important;
+  }
+
+  #menu-social li a[href*="twitter.com"] {
+    background-image: url("assets/images/twitterIcon.png");
+    background-repeat: no-repeat;
+    background-size: 30px, 30px;
+    background-position: center;
+    background-color: rgba(100, 100, 100, 0.4)!important;
+  }
+
+  #menu-social li a[href*="instagram.com"] {
+    background-image: url("assets/images/instagramIcon.png");
+    background-repeat: no-repeat;
+    background-size: 20px, 20px;
+    background-position: center;
+    background-color: rgba(100, 100, 100, 0.4)!important;
+  }
+
+  #menu-social li a[href*="pinterest.com"] {
+    background-image: url("assets/images/pinterestIcon.png");
+    background-repeat: no-repeat;
+    background-size: 28px, 28px;
+    background-position: center;
+    background-color: rgba(100, 100, 100, 0.4)!important;
+  }
+
+  #menu-social li a[href*="twitter.com"] .fa:before,.fa-twitter:before{
+      content:none!important;
+}
+
+#menu-social li a[href*="facebook.com"] .fa:before,.fa-facebook:before{
+    content:none!important;
+}
+
+#menu-social li a[href*="pinterest.com"] .fa:before,.fa-pinterest:before{
+    content:none!important;
+}
+
+#menu-social li a[href*="instagram.com"] .fa:before,.fa-instagram:before{
+    content:none!important;
+}
