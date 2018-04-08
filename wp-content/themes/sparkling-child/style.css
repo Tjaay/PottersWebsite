@@ -10,7 +10,9 @@ Template: sparkling
   }
 
 
-
+  .cff-load-more:hover {
+    color:white!important;
+  }
 
   #secondary .well {
     background: #f5f6fa;
