@@ -20,16 +20,27 @@ Template: sparkling
 
 .slides img {
     min-width:100%;
-    max-height: 440px;
+    max-height: 450px;
 }
 
  .potter img {
-   min-width: 100%;
-   max-height:550px!important;
+   width: 80%;
+   max-height:400px;
+}
+
+.featured-potter-container {
+  width: 100%;
+  height: 400px;
+  background-color: #131821;
+}
+.featured-potter-container .flexslider {
+  width:60%;
+  max-height:400px;
+  margin: auto;
 }
 
 .potter .flex-caption {
-    max-width:45%;
+    max-width:60%;
     margin-right: 1rem;
 }
 
@@ -37,6 +48,39 @@ Template: sparkling
     height: 250px;
 }
 
+.page-template-custom-frontpage .container.main-content-area {
+  background-image: url("assets/images/backgroundImage.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  margin:0;
+  padding:0;
+  padding-top:6rem;
+}
+
+.second-frontpage-background {
+  width:100%;
+  height:60em;
+  background-color:white;
+  background-image: url("assets/images/secondBackground.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.page-template-custom-frontpage .site-main {
+  width:70%;
+  margin:auto;
+}
 
 .hidetitle .entry-title {
     display:none;   

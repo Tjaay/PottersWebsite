@@ -21,11 +21,16 @@
         ?>
  
     </main><!-- .site-main -->
- 
     <?php get_sidebar( 'content-bottom' ); ?>
+    <div class ="featured-potter-container">
     <?php sparkling_featured_potter_slider(); ?>
-    <?php sparkling_call_for_action(); ?>
+    </div>
+    <div class="second-frontpage-background">
+    </div>
     </div><!-- .content-area -->
+
+  
+
  
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

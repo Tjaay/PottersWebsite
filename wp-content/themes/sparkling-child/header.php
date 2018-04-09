@@ -71,6 +71,7 @@ if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && (strpos( $_SERVER['HTTP_USER_AGENT'
 
 		<div class="top-section">
 			<?php sparkling_featured_slider(); ?>
+			<?php sparkling_call_for_action(); ?>
 		</div>
 
 		<div class="container main-content-area">
