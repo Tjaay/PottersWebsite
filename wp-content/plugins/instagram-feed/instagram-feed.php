@@ -3,7 +3,7 @@
 Plugin Name: Instagram Feed
 Plugin URI: https://smashballoon.com/instagram-feed
 Description: Display beautifully clean, customizable, and responsive Instagram feeds
-Version: 1.8
+Version: 1.8.1
 Author: Smash Balloon
 Author URI: https://smashballoon.com/
 License: GPLv2 or later
@@ -23,7 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'SBIVER', '1.8' );
+define( 'SBIVER', '1.8.1' );
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -82,7 +82,7 @@ function display_instagram($atts, $content = null) {
 	if ( empty( $sb_instagram_user_id ) ) {
 		$sb_instagram_settings = get_option( 'sb_instagram_settings' );
 		$at_arr = isset( $sb_instagram_settings[ 'sb_instagram_at' ] ) ? explode( '.', trim( $sb_instagram_settings[ 'sb_instagram_at' ] ), 2) : array();
-		$sb_instagram_user_id = $at_arr[0];
+		$sb_instagram_user_id = isset( $at_arr[0] ) ? $at_arr[0] : '';
 	}
 
 	// Access Token
@@ -216,9 +216,9 @@ function display_instagram($atts, $content = null) {
 	$sbi_transient_name = substr($sbi_transient_name, 0, 45);
 	// delete_transient($sbi_transient_name);
 
-	//Check whether the cache transient exists in the database
-	( false === ( $sbi_cache_exists = get_transient( $sbi_transient_name ) ) ) ? $sbi_cache_exists = false : $sbi_cache_exists = true;
-	($sbi_cache_exists) ? $sbi_cache_exists = 'true' : $sbi_cache_exists = 'false';
+	//Check whether the cache transient exists in the database and is available for more than one more minute
+	$feed_expires = get_option( '_transient_timeout_'.$sbi_transient_name );
+	$sbi_cache_exists = $feed_expires !== false && ($feed_expires - time()) > 60 ? 'true' : 'false';
 
 	$sbiHeaderCache = 'false';
 	//If it's a user then add the header cache check to the feed
@@ -227,9 +227,9 @@ function display_instagram($atts, $content = null) {
 	$sbi_header_transient_name = substr($sbi_header_transient_name, 0, 45);
 
 	//Check for the header cache
-	( false === ( $sbi_header_cache_exists = get_transient( $sbi_header_transient_name ) ) ) ? $sbi_header_cache_exists = false : $sbi_header_cache_exists = true;
-
-	($sbi_header_cache_exists) ? $sbiHeaderCache = 'true' : $sbiHeaderCache = 'false';
+	$header_expires = get_option( '_transient_timeout_'.$sbi_header_transient_name );
+	$sbi_header_cache_exists = $header_expires !== false && ($header_expires - time()) > 60 ? 'true' : 'false';
+	$sbiHeaderCache = $sbi_header_cache_exists;
 
 	if ( isset( $options['check_api'] ) && ( $options['check_api'] === 'on' || $options['check_api']) && ( !isset( $options['sb_instagram_cache_time'] ) || ( isset( $options['sb_instagram_cache_time'] ) && (int)$options['sb_instagram_cache_time'] > 0 ) ) ) {
 		$sbi_cache_exists = 'true';
@@ -329,10 +329,13 @@ function display_instagram($atts, $content = null) {
     $sb_instagram_content .= '</div>'; //End #sb_instagram
 
     //If using an ajax theme then add the JS to the bottom of the feed
-    if($sb_instagram_ajax_theme){
-        $sb_instagram_content .= '<script type="text/javascript">var sb_instagram_js_options = {"sb_instagram_at":"'.trim($options['sb_instagram_at']).'"};</script>';
-        $sb_instagram_content .= "<script type='text/javascript' src='".plugins_url( '/js/sb-instagram.min.js?ver='.SBIVER , __FILE__ )."'></script>";
-    }
+	//If using an ajax theme then add the JS to the bottom of the feed
+	if($sb_instagram_ajax_theme){
+		$font_method = isset( $options['sbi_font_method'] ) ? $options['sbi_font_method'] : 'svg';
+
+		$sb_instagram_content .= '<script type="text/javascript">var sb_instagram_js_options = {"sb_instagram_at":"'.trim($options['sb_instagram_at']).'", "font_method":"'.$font_method.'"};</script>';
+		$sb_instagram_content .= "<script type='text/javascript' src='".plugins_url( '/js/sb-instagram.js?ver='.SBIVER , __FILE__ )."'></script>";
+	}
  
     //Return our feed HTML to display
     return $sb_instagram_content;
@@ -491,11 +494,16 @@ function sbi_get_cache() {
 	$should_use_backup_feed = isset( $_POST['useBackupFeed'] ) && sanitize_text_field( $_POST['useBackupFeed'] ) == 'true' ? true : false;
 	$feed_cache_transient_data = get_transient( $transient_names['feed'] );
 	$warning_message_data = '';
+	$backups_enabled = isset( $options['sb_instagram_backup'] ) ? $options['sb_instagram_backup'] !== '' : true;
 
 	if ( ! empty( $feed_cache_transient_data ) ) {
 		$feed_cache_data = $feed_cache_transient_data;
 	} elseif ( isset( $options['check_api'] ) && $options['check_api'] === 'on' || $options['check_api'] ) {
 		$feed_cache_data = '{%22error%22:%22tryfetch%22}';
+	} elseif ( !get_transient( 'sbi_doing_tryfetch_once' ) && $backups_enabled ) {
+		set_transient( 'sbi_doing_tryfetch_once', 'true', 60*60 );
+		$feed_cache_data = '{%22error%22:%22tryfetch%22}';
+		$warning_message_data = ',%22tryfetchonce%22:{%22tryfetchonce%22:%22tryfetchonce%22}';
 	} else {
 		$feed_cache_data = '{%22error%22:%22nocache%22}';
 	}
@@ -514,6 +522,10 @@ function sbi_get_cache() {
 		$header_cache_data = $header_cache_data_transient_data;
 	} elseif ( $doing_tryfetch ) {
 		$header_cache_data = '{%22error%22:%22tryfetch%22}';
+	} elseif ( !get_transient( 'sbi_doing_tryfetch_once' ) && $backups_enabled ) {
+		set_transient( 'sbi_doing_tryfetch_once', 'true', 60*60 );
+		$feed_cache_data = '{%22error%22:%22tryfetch%22}';
+		$warning_message_data = ',%22tryfetchonce%22:{%22tryfetchonce%22:%22tryfetchonce%22}';
 	} elseif ( empty( $header_cache_data_transient_data ) || $still_using_backup ) {
 		$backup_header_cache = get_option( '!' . $transient_names['header'] );
 		$header_cache_data = ! empty( $backup_header_cache ) ? $backup_header_cache : '{%22error%22:%22nocache%22}';
