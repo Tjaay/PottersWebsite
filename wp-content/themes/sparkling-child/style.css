@@ -6,6 +6,13 @@ Template: sparkling
 /* Smartphones (portrait) ----------- */
   @media (max-width:567px){
 
+  .navbar-default .navbar-nav a:hover {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    transform: none;
+  }
+  
   .page-template-custom-frontpage .site-main {
       min-width:100%;
   }
