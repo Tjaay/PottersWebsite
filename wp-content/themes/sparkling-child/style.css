@@ -9,6 +9,18 @@ Template: sparkling
   .page-template-custom-frontpage .site-main {
       min-width:100%;
   }
+  .wpcf7-textarea,
+  .wpcf7-text {
+    max-width: 100%;
+    padding: 10px 1px !important;
+  }
+  #logo img {
+    pointer-events:none;
+    height:50px;
+    max-width:120px;
+    margin-top:-5px;
+    margin-left:auto;
+  }
 }
 
 /* navbar styles */
@@ -18,6 +30,7 @@ Template: sparkling
   font-weight: 500;
   letter-spacing: 1px;
   transition: all 0.35s ease;
+  padding-bottom: .5rem;
 }
 
 .navbar-default .navbar-nav li:first-child a {
