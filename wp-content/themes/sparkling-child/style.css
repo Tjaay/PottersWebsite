@@ -5,10 +5,11 @@ Template: sparkling
 
 /* Smartphones (portrait) ----------- */
   @media (max-width:567px){
-
+ 
   .page-template-custom-frontpage .site-main {
       min-width:100%;
   }
+
   .wpcf7-textarea,
   .wpcf7-text {
     max-width: 100%;
@@ -22,6 +23,20 @@ Template: sparkling
     margin-left:auto;
   }
 
+}
+
+/* globals */
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .entry-title, .entry-title a {
+   color: #116abb;
+}
+
+body.archive.category #main header.page-header {
+  display: none;
+}
+
+.archive-description {
+  display:none;
 }
 
 /* toggle menu style */
@@ -170,6 +185,22 @@ Template: sparkling
 }
 
 /* front page styles */
+#frontPageWelcome{
+  max-width:750px;
+  margin-right:auto;
+  margin-left:auto;
+}
+#frontPageWelcome,  h3, h4 {
+  color: #131821;
+  font-weight: 200;
+  line-height:1.4;
+}
+
+#frontPageBenefits, h4 {
+  color: #131821;
+  font-weight: 200;
+}
+
 .page-template-custom-frontpage .site-main {
   width:79%;
   margin:auto;
