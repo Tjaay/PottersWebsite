@@ -5,7 +5,7 @@ Template: sparkling
 
 /* Smartphones (portrait) ----------- */
 @media (max-width:567px){
-
+  /* styles for dropwdown movile nav */
   #page .navbar-default .navbar-nav .dropdown-menu li a {
     background-color:#116abb!important;
   }
@@ -17,13 +17,13 @@ Template: sparkling
   .page-template-custom-frontpage .site-main {
       min-width:100%;
   }
-
+  /* adjusts contact form */
   .wpcf7-textarea,
   .wpcf7-text {
     max-width: 100%;
     padding: 10px 1px !important;
   }
-
+  /* turns off hover for mobile for main logo */
   #logo img {
     pointer-events:none;
     height:50px;
@@ -31,6 +31,14 @@ Template: sparkling
     margin-top:-5px;
     margin-left:auto;
   }
+
+}
+
+/* fixes front page image text wrap */
+@media (max-width:768px) {
+  .page-template-custom-frontpage .site-main img {
+    min-width:100%;
+}
 
 }
 
@@ -159,12 +167,17 @@ body.archive.category #main header.page-header {
   background: #f5f6fa;
 }
 
+/* widgent text colors */
 #secondary .widget {
   color: #555f61!important;
 }
 
 #secondary .widget a {
   color: #555f61!important;
+}
+
+#secondary .widget a:hover {
+  color: #d82222!important;
 }
   
 /* posts and pages radius and background */
@@ -200,13 +213,13 @@ body.archive.category #main header.page-header {
   margin-left:auto;
 }
 #frontPageWelcome,  h3, h4 {
-  color: #131821;
+  color: #606060;;
   font-weight: 200;
   line-height:1.4;
 }
 
 #frontPageBenefits, h4 {
-  color: #131821;
+  color: #606060;;
   font-weight: 200;
 }
 
