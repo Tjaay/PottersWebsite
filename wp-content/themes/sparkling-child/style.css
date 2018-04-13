@@ -4,7 +4,15 @@ Template: sparkling
 */
 
 /* Smartphones (portrait) ----------- */
-  @media (max-width:567px){
+@media (max-width:567px){
+
+  #page .navbar-default .navbar-nav .dropdown-menu li a {
+    background-color:#116abb!important;
+  }
+
+  #page .navbar-default .navbar-nav .dropdown-menu li a:active {
+    background-color:#555f61!important;
+  }
  
   .page-template-custom-frontpage .site-main {
       min-width:100%;
@@ -15,6 +23,7 @@ Template: sparkling
     max-width: 100%;
     padding: 10px 1px !important;
   }
+
   #logo img {
     pointer-events:none;
     height:50px;
