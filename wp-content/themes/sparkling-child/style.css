@@ -9,11 +9,6 @@ Template: sparkling
   .page-template-custom-frontpage .site-main {
       min-width:100%;
   }
-
-  #logo img:hover {
-      content: url("assets/images/pottersLogo.png")!important;
-  }
-
 }
 
 /* navbar styles */
@@ -79,6 +74,15 @@ Template: sparkling
   width: 100%;
 }
 
+
+.nav-next:hover a,
+.nav-previous:hover a{
+  background-color:#116abb!important;
+  color: #f5f6fa!important;
+  border:#116abb!important;
+}
+
+
 /* button adjustments */
 .btn.btn-default.read-more, a.more-link {
   background-color: #40739e!important;
@@ -86,7 +90,7 @@ Template: sparkling
 }
 
 .btn.btn-default.read-more, a.more-link:hover {
-  background-color: #01579B!important;
+  background-color: #116abb!important;
   color:#f5f6fa!important
 }
 
@@ -110,6 +114,14 @@ Template: sparkling
 /* widget background */
 #secondary .well {
   background: #f5f6fa;
+}
+
+#secondary .widget {
+  color: #555f61!important;
+}
+
+#secondary .widget a {
+  color: #555f61!important;
 }
   
 /* posts and pages radius and background */
