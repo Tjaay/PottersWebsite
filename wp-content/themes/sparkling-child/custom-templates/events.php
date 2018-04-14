@@ -17,33 +17,7 @@
                     <h2 class="card-title">
                         <strong>Upcoming Events</strong>
                     </h2>
-                    <h3 class="event-title text-left">
-                        <?php the_field('eventOneTitle')?>
-                    </h3>
-                    <h5 class="indigo-text text-left">
-                        <?php the_field('eventOneDate') ?>
-                    </h5>
-                    <p class="card-text text-left">
-                        <?php the_field('eventOneDesc') ?>
-                    </p>
-                    <h3 class="event-title">
-                        <?php the_field('eventTwoTitle')?>
-                    </h3>
-                    <h5 class="indigo-text">
-                        <?php the_field('eventTwoDate') ?>
-                    </h5>
-                    <p class="card-text">
-                        <?php the_field('eventTwoDesc') ?>
-                    </p>
-                    <h3 class="event-title">
-                        <?php the_field('eventThreeTitle')?>
-                    </h3>
-                    <h5 class="indigo-text">
-                        <?php the_field('eventThreeDate') ?>
-                    </h5>
-                    <p class="card-text">
-                        <?php the_field('eventThreeDesc') ?>
-                    </p>
+                    <?php the_field('upcoming_events_text');?>
                 </div>
                 <!--/.Card content-->
             </div>
@@ -65,24 +39,7 @@
                     <h2 class="card-title">
                         <strong>Upcoming Workshops</strong>
                     </h2>
-                    <h3 class="event-title">
-                        <?php the_field('workshopOneTitle'); ?>
-                    </h3>
-                    <h5 class="indigo-text">
-                        <?php the_field('workshopOneDate'); ?>
-                    </h5>
-                    <p class="card-text">
-                        <?php the_field('workshopOneDesc'); ?>
-                    </p>
-                    <h3 class="event-title">
-                        <?php the_field('workshopTwoTitle'); ?>
-                    </h3>
-                    <h5 class="indigo-text">
-                        <?php the_field('workshopTwoDate'); ?>
-                    </h5>
-                    <p class="card-text">
-                        <?php the_field('workshopTwoDesc'); ?>
-                    </p>
+                    <?php the_field('upcoming_workshops_text');?>
                 </div>
                 <!--/.Card content-->
             </div>
