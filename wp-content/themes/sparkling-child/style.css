@@ -400,23 +400,8 @@ body.error404 #secondary {
 
 .card-body {
   margin: auto;
-}
-
-.card-body .indigo-text {
-  margin: auto;
-  padding-top: 1rem;
   max-width: 70%;
-}
-
-.card-body .event-title {
-  padding-top: 2rem;
-  margin: auto;
-  max-width: 70%;
-}
-
-.card-body .card-text {
-  margin: auto;
-  max-width: 70%;
+  padding-bottom:2rem;
 }
 
 .overlay img {
